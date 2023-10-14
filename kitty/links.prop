@@ -1,0 +1,2 @@
+$DOTFILES/kitty/kitty.conf=$HOME/.config/kitty/kitty.conf
+$DOTFILES/kitty/themes/rose-pine.conf=$HOME/.config/kitty/rose-pine.conf
