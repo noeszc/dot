@@ -54,7 +54,6 @@ require('lazy').setup({
 
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
-      'jose-elias-alvarez/null-ls.nvim',
     },
   },
 
@@ -144,10 +143,10 @@ require('lazy').setup({
     'lukas-reineke/indent-blankline.nvim',
     -- Enable `lukas-reineke/indent-blankline.nvim`
     -- See `:help ibl`
-    -- main = 'ibl',
+    main = 'ibl',
     opts = {
       char = '┊',
-      show_trailing_blankline_indent = false,
+      -- show_trailing_blankline_indent = false,
     },
   },
 
@@ -311,6 +310,9 @@ vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = 
 -- Defer Treesitter setup after first render to improve startup time of 'nvim {filename}'
 vim.defer_fn(function()
   require('nvim-treesitter.configs').setup {
+    modules = {},
+    sync_install = false,
+    ignore_install = {},
     -- Add languages to be installed here that you want installed for treesitter
     ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim',
       'bash' },
@@ -448,7 +450,7 @@ require('mason-lspconfig').setup()
 --
 --  Add any additional override configuration in the following tables. They will be passed to
 --  the `settings` field of the server config. You must look up that documentation yourself.
---
+local util = require 'lspconfig.util'
 --  If you want to override the default filetypes that your language server will attach to you can
 --  define the property 'filetypes' to the map in question.
 local servers = {
@@ -456,7 +458,20 @@ local servers = {
   -- gopls = {},
   -- pyright = {},
   -- rust_analyzer = {},
-  -- tsserver = {},
+  denols = {
+    root_dir = function(fname)
+      return util.root_pattern('deno.json', 'deno.jsonc')(fname)
+    end,
+    single_file_support = false,
+  },
+  eslint = {},
+  tsserver = {
+    root_dir = function(fname)
+      return util.root_pattern('tsconfig.json')(fname)
+          or util.root_pattern('package.json', 'jsconfig.json')(fname)
+    end,
+    single_file_support = false,
+  },
   -- html = { filetypes = { 'html', 'twig', 'hbs'} },
 
   lua_ls = {
@@ -483,12 +498,18 @@ mason_lspconfig.setup {
 
 mason_lspconfig.setup_handlers {
   function(server_name)
-    require('lspconfig')[server_name].setup {
+    local config = {
       capabilities = capabilities,
       on_attach = on_attach,
-      settings = servers[server_name],
-      filetypes = (servers[server_name] or {}).filetypes,
     }
+
+    local server_config = servers[server_name]
+
+    for k, v in pairs(server_config) do
+      config[k] = v
+    end
+
+    require('lspconfig')[server_name].setup(config);
   end,
 }
 
@@ -539,27 +560,6 @@ cmp.setup {
     { name = 'luasnip' },
   },
 }
-
-local null_ls = require("null-ls")
-local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
-null_ls.setup({
-  sources = {
-    null_ls.builtins.formatting.prettierd
-  },
-  -- you can reuse a shared lspconfig on_attach callback here
-  on_attach = function(client, bufnr)
-    if client.supports_method("textDocument/formatting") then
-      vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-      vim.api.nvim_create_autocmd("BufWritePre", {
-        group = augroup,
-        buffer = bufnr,
-        callback = function()
-          vim.lsp.buf.format({ bufnr = bufnr })
-        end,
-      })
-    end
-  end,
-})
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
