@@ -145,7 +145,13 @@ require('lazy').setup({
     -- See `:help ibl`
     main = 'ibl',
     opts = {
-      char = '┊',
+      indent = {
+        char = '┊',
+      },
+      whitespace = {
+        remove_blankline_trail = false
+      },
+      scope = { enabled = false },
       -- show_trailing_blankline_indent = false,
     },
   },
