@@ -1,2 +1,4 @@
 $DOTFILES/kitty/kitty.conf=$HOME/.config/kitty/kitty.conf
 $DOTFILES/kitty/themes/rose-pine.conf=$HOME/.config/kitty/rose-pine.conf
+$DOTFILES/kitty/themes/modus-operandi.conf=$HOME/.config/kitty/modus-operandi.conf
+$DOTFILES/kitty/themes/modus-vivendi.conf=$HOME/.config/kitty/modus-vivendi.conf

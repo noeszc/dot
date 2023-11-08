@@ -1,6 +1,6 @@
 -- general
 lvim.format_on_save = true
-lvim.colorscheme = "rose-pine"
+lvim.colorscheme = "modus"
 
 vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
@@ -8,6 +8,7 @@ vim.opt.relativenumber = true
 vim.opt.gdefault = true
 vim.opt.ignorecase = true
 vim.opt.linebreak = true
+vim.opt.background = "dark"
 
 vim.api.nvim_set_keymap("n", ";", ":", { noremap = true })
 vim.api.nvim_set_keymap("v", ";", ":", { noremap = true })
@@ -79,7 +80,7 @@ lvim.builtin.project.active = false
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
 lvim.builtin.lualine.style = "default"
-lvim.builtin.lualine.options.theme = 'rose-pine'
+lvim.builtin.lualine.options.theme = 'modus'
 -- lvim.builtin.nvimtree.setup.renderer.icons.show.file = false
 -- lvim.builtin.nvimtree.setup.renderer.icons = false
 
@@ -165,7 +166,15 @@ lvim.plugins = {
       })
     end
   },
+  { 'stevedylandev/flexoki-nvim', name = 'flexoki' },
+  {
+    "ronisbr/nano-theme.nvim",
+    init = function()
+      vim.o.background = "light" -- or "dark".
+    end
+  },
   { "tpope/vim-surround" },
+  { 'antonio-hickey/citrus-mist', name = "citrus" },
   {
     'pmizio/typescript-tools.nvim',
     dependencies = {
@@ -181,7 +190,8 @@ lvim.plugins = {
       'javascript.jsx',
     },
     opts = {},
-  }
+  },
+  { "miikanissi/modus-themes.nvim", priority = 1000 }
 }
 
 -- -- Autocommands (`:help autocmd`) <https://neovim.io/doc/user/autocmd.html>
