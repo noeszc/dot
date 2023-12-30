@@ -81,20 +81,6 @@ vim.keymap.set('n', '<leader><tab>]', '<cmd>tabnext<cr>', { desc = 'Next Tab' })
 vim.keymap.set('n', '<leader><tab>d', '<cmd>tabclose<cr>', { desc = 'Close Tab' })
 vim.keymap.set('n', '<leader><tab>[', '<cmd>tabprevious<cr>', { desc = 'Previous Tab' })
 
--- vim.keymap.set('n', '<C-H>', '<C-W><C-H>')
--- vim.keymap.set('n', '<C-J>', '<C-W><C-J>')
--- vim.keymap.set('n', '<C-K>', '<C-W><C-K>')
--- vim.keymap.set('n', '<C-L>', '<C-W><C-L>')
--- vim.keymap.set('n', '<C-S>', ':%s/')
--- vim.keymap.set('n', 'sp', ':sp<CR>')
--- vim.keymap.set('n', 'tj', ':tabprev<CR>')
--- vim.keymap.set('n', 'tk', ':tabnext<CR>')
--- vim.keymap.set('n', 'tn', ':tabnew<CR>')
--- vim.keymap.set('n', 'to', ':tabo<CR>')
--- vim.keymap.set('n', 'vs', ':vs<CR>')
--- vim.keymap.set('n', '<leader>j', ':cnext<CR>', { silent = true })
--- vim.keymap.set('n', '<leader>k', ':cprevious<CR>', { silent = true })
-
 -- Setup lazy.nvim
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 
@@ -254,16 +240,74 @@ require('lazy').setup {
       }
     end,
   },
+
+  -- File explorer
+  {
+    'nvim-tree/nvim-tree.lua',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    config = function()
+      local nvimtree = require 'nvim-tree'
+      -- recommended settings from nvim-tree documentation
+      vim.g.loaded_netrw = 1
+      vim.g.loaded_netrwPlugin = 1
+
+      nvimtree.setup {
+        view = {
+          width = 35,
+          relativenumber = false,
+        },
+        -- change folder arrow icons
+        renderer = {
+          indent_markers = {
+            enable = true,
+          },
+          icons = {
+            show = {
+              git = false,
+            },
+            glyphs = {
+              -- folder = {
+              --   arrow_closed = '', -- arrow when folder is closed
+              --   arrow_open = '', -- arrow when folder is open
+              -- },
+            },
+          },
+        },
+        -- disable window_picker for
+        -- explorer to work well with
+        -- window splits
+        actions = {
+          open_file = {
+            window_picker = {
+              enable = false,
+            },
+          },
+        },
+        filters = {
+          custom = { '.DS_Store' },
+        },
+        git = {
+          ignore = false,
+        },
+      }
+
+      -- set keymaps
+      vim.keymap.set('n', '<leader>e', '<cmd>NvimTreeToggle<CR>', { desc = 'Toggle file explorer' }) -- toggle file explorer
+      vim.keymap.set('n', '<leader>ef', '<cmd>NvimTreeFindFileToggle<CR>', { desc = 'Toggle file explorer on current file' }) -- toggle file explorer on current file
+      vim.keymap.set('n', '<leader>ec', '<cmd>NvimTreeCollapse<CR>', { desc = 'Collapse file explorer' }) -- collapse file explorer
+      vim.keymap.set('n', '<leader>er', '<cmd>NvimTreeRefresh<CR>', { desc = 'Refresh file explorer' }) -- refresh file explorer
+    end,
+  },
 }
 
 -- Open Telescope on start
-vim.api.nvim_create_autocmd('VimEnter', {
-  callback = function()
-    if vim.fn.argv(0) == '' then
-      require('telescope.builtin').find_files()
-    end
-  end,
-})
+-- vim.api.nvim_create_autocmd('VimEnter', {
+--   callback = function()
+--     if vim.fn.argv(0) == '' then
+--       require('telescope.builtin').find_files()
+--     end
+--   end,
+-- })
 
 -- Set up Comment.nvim
 require('Comment').setup {
@@ -285,10 +329,10 @@ require('mason-lspconfig').setup_handlers {
 }
 
 -- Global LSP mappings
-vim.keymap.set('n', '<space>e', vim.diagnostic.open_float)
+vim.keymap.set('n', '<leader>ee', vim.diagnostic.open_float)
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
-vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist)
+vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
 
 -- More LSP mappings
 vim.api.nvim_create_autocmd('LspAttach', {

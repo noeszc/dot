@@ -21,7 +21,6 @@ cnoreabbrev WQ wq
 cnoreabbrev Q! q!
 ]])
 
-
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
 -- add your own keymapping
@@ -53,22 +52,21 @@ lvim.keys.normal_mode[", "] = ":nohl<cr>"
 --   },
 -- }
 
-
-lvim.builtin.gitsigns.active = true;
-lvim.builtin.gitsigns.opts.current_line_blame = true;
+lvim.builtin.gitsigns.active = true
+lvim.builtin.gitsigns.opts.current_line_blame = true
 
 -- Use which-key to add extra bindings with the leader-key prefix
 lvim.builtin.which_key.mappings["k"] = { "<cmd>Telescope buffers<CR>", "Search Buffers" }
 lvim.builtin.which_key.mappings["g"] = { "<cmd>Telescope grep_string<CR>", "Grep in dir" }
 lvim.builtin.which_key.mappings["L"]["t"] = { "<cmd>LvimToggleFormatOnSave<cr>", "ToggleFormatOnSave" }
 lvim.builtin.which_key.mappings["t"] = {
-  name = "Diagnostics",
-  t = { "<cmd>TroubleToggle<cr>", "trouble" },
-  w = { "<cmd>TroubleToggle lsp_workspace_diagnostics<cr>", "workspace" },
-  d = { "<cmd>TroubleToggle lsp_document_diagnostics<cr>", "document" },
-  q = { "<cmd>TroubleToggle quickfix<cr>", "quickfix" },
-  l = { "<cmd>TroubleToggle loclist<cr>", "loclist" },
-  r = { "<cmd>TroubleToggle lsp_references<cr>", "references" },
+	name = "Diagnostics",
+	t = { "<cmd>TroubleToggle<cr>", "trouble" },
+	w = { "<cmd>TroubleToggle lsp_workspace_diagnostics<cr>", "workspace" },
+	d = { "<cmd>TroubleToggle lsp_document_diagnostics<cr>", "document" },
+	q = { "<cmd>TroubleToggle quickfix<cr>", "quickfix" },
+	l = { "<cmd>TroubleToggle loclist<cr>", "loclist" },
+	r = { "<cmd>TroubleToggle lsp_references<cr>", "references" },
 }
 
 -- TODO: User Config for predefined plugins
@@ -80,31 +78,31 @@ lvim.builtin.project.active = false
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
 lvim.builtin.lualine.style = "default"
-lvim.builtin.lualine.options.theme = 'modus'
+lvim.builtin.lualine.options.theme = "modus"
 -- lvim.builtin.nvimtree.setup.renderer.icons.show.file = false
 -- lvim.builtin.nvimtree.setup.renderer.icons = false
 
 lvim.builtin.telescope.defaults.path_display = {
-  shorten = {
-    len = 3,
-    exclude = { 1, -1 }
-  },
-  truncate = true
+	shorten = {
+		len = 3,
+		exclude = { 1, -1 },
+	},
+	truncate = true,
 }
 
 lvim.builtin.treesitter.ensure_installed = {
-  "bash",
-  "c",
-  "javascript",
-  "json",
-  "lua",
-  "python",
-  "typescript",
-  "tsx",
-  "css",
-  "rust",
-  "java",
-  "yaml",
+	"bash",
+	"c",
+	"javascript",
+	"json",
+	"lua",
+	"python",
+	"typescript",
+	"tsx",
+	"css",
+	"rust",
+	"java",
+	"yaml",
 }
 
 lvim.builtin.treesitter.ignore_install = { "haskell" }
@@ -112,15 +110,14 @@ lvim.builtin.treesitter.highlight.enabled = true
 
 -- generic LSP settings
 
-
 vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "tsserver" })
 
 local capabilities = require("lvim.lsp").common_capabilities()
 
 -- nvim-ufo
 capabilities.textDocument.foldingRange = {
-  dynamicRegistration = false,
-  lineFoldingOnly = true
+	dynamicRegistration = false,
+	lineFoldingOnly = true,
 }
 
 -- require("typescript").setup({
@@ -135,63 +132,63 @@ capabilities.textDocument.foldingRange = {
 --   require("typescript.extensions.null-ls.code-actions")
 -- })
 
-local formatters = require "lvim.lsp.null-ls.formatters"
-formatters.setup {
-  {
-    command = "prettier",
-    filetypes = { "typescript", "typescriptreact" },
-  },
-}
-local linters = require "lvim.lsp.null-ls.linters"
-linters.setup {
-  {
-    command = "shellcheck",
-    args = { "--severity", "warning" },
-  },
-}
+local formatters = require("lvim.lsp.null-ls.formatters")
+formatters.setup({
+	{
+		command = "prettier",
+		filetypes = { "typescript", "typescriptreact" },
+	},
+})
+local linters = require("lvim.lsp.null-ls.linters")
+linters.setup({
+	{
+		command = "shellcheck",
+		args = { "--severity", "warning" },
+	},
+})
 
 -- -- Additional Plugins <https://www.lunarvim.org/docs/plugins#user-plugins>
 lvim.plugins = {
-  {
-    "folke/trouble.nvim",
-    cmd = "TroubleToggle",
-  },
-  {
-    'rose-pine/neovim',
-    name = 'rose-pine',
-    config = function()
-      require('rose-pine').setup({
-        variant = "main",
-        disable_italics = true,
-      })
-    end
-  },
-  { 'stevedylandev/flexoki-nvim', name = 'flexoki' },
-  {
-    "ronisbr/nano-theme.nvim",
-    init = function()
-      vim.o.background = "light" -- or "dark".
-    end
-  },
-  { "tpope/vim-surround" },
-  { 'antonio-hickey/citrus-mist', name = "citrus" },
-  {
-    'pmizio/typescript-tools.nvim',
-    dependencies = {
-      'neovim/nvim-lspconfig',
-      'nvim-lua/plenary.nvim',
-    },
-    ft = {
-      'typescript',
-      'typescriptreact',
-      'typescript.tsx',
-      'javascript',
-      'javascriptreact',
-      'javascript.jsx',
-    },
-    opts = {},
-  },
-  { "miikanissi/modus-themes.nvim", priority = 1000 }
+	{
+		"folke/trouble.nvim",
+		cmd = "TroubleToggle",
+	},
+	{
+		"rose-pine/neovim",
+		name = "rose-pine",
+		config = function()
+			require("rose-pine").setup({
+				variant = "main",
+				disable_italics = true,
+			})
+		end,
+	},
+	{ "stevedylandev/flexoki-nvim", name = "flexoki" },
+	{
+		"ronisbr/nano-theme.nvim",
+		init = function()
+			vim.o.background = "light" -- or "dark".
+		end,
+	},
+	{ "tpope/vim-surround" },
+	{ "antonio-hickey/citrus-mist", name = "citrus" },
+	{
+		"pmizio/typescript-tools.nvim",
+		dependencies = {
+			"neovim/nvim-lspconfig",
+			"nvim-lua/plenary.nvim",
+		},
+		ft = {
+			"typescript",
+			"typescriptreact",
+			"typescript.tsx",
+			"javascript",
+			"javascriptreact",
+			"javascript.jsx",
+		},
+		opts = {},
+	},
+	{ "miikanissi/modus-themes.nvim", priority = 1000 },
 }
 
 -- -- Autocommands (`:help autocmd`) <https://neovim.io/doc/user/autocmd.html>
