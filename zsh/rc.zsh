@@ -40,13 +40,21 @@ export PATH="$PATH:/usr/local/sbin:$DOTFILES/bin:$HOME/.local/bin"
 export FZF_DEFAULT_COMMAND='rg --files'
 
 # Python
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin/:$PATH"
-eval "$(pyenv init --path)"
-eval "$(pyenv init -)"
+# export PYENV_ROOT="$HOME/.pyenv"
+# export PATH="$PYENV_ROOT/bin/:$PATH"
+# eval "$(pyenv init --path)"
+# eval "$(pyenv init -)"
 
 # pnpm
 export PNPM_HOME="$HOME/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 
 eval "$(fnm env --use-on-cd)"
+
+# pnpm
+export PNPM_HOME="/Users/noesanchez/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end

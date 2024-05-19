@@ -21,9 +21,9 @@ alias zn='vim $NOTES_DIR/$(date +"%Y%m%d%H%M.md")'
 alias ta='tmux attach -t'
 
 # File Listing
-alias l='exa -lah'
-alias ls=exa
-alias sl=exa
+alias l='eza -lah'
+alias ls=eza
+alias sl=eza
 
 # Source Zsh
 alias s='source ~/.zshrc'
@@ -60,7 +60,7 @@ alias gds='git diff -w --staged'
 alias grs='git restore --staged'
 
 # Git Status
-alias gst='git rev-parse --git-dir > /dev/null 2>&1 && git status || exa'
+alias gst='git rev-parse --git-dir > /dev/null 2>&1 && git status || eza'
 
 # Git Reset
 alias gu='git reset --soft HEAD~1'
