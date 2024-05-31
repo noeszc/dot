@@ -1,5 +1,5 @@
 return {
-  { "folke/trouble.nvim", enabled = false },
+  -- { "folke/trouble.nvim", enabled = false },
   { "folke/noice.nvim", enabled = false },
   { "folke/flash.nvim", enabled = false },
   { "nvimdev/dashboard-nvim", enabled = false },
